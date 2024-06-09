@@ -1,18 +1,19 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
 import { object, string } from "yup";
 import FormikInput from "../../../components/FormikInput/FormikInput";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthenticateRequest } from "../../../models/auth/requests/authenticateRequest";
 import authService from "../../../services/authService";
-import { jwtDecode } from "jwt-decode";
-import { MyJwtPayload } from "../../../models/JwtTokenPayload/MyJwtPayload";
+import { useDispatch } from "react-redux";
+import { login } from "../../../store/slices/authSlice";
 
 type Props = {};
 
 const Login = (props: Props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   const initialValues = {
     username: "",
@@ -26,9 +27,6 @@ const Login = (props: Props) => {
       .min(2, "Şifre minimum 3 karakter uzunluğunda olmalıdır.")
       .max(30),
   });
-  // const handleLogin = (values: any) => {
-  //   console.log(values);
-  // };
 
   const handleLogin = (values: AuthenticateRequest) => {
     authService.authenticate(values).then(
@@ -41,6 +39,7 @@ const Login = (props: Props) => {
         } else {
           const token = response.data.token;
           localStorage.setItem("jsonwebtoken", token);
+          dispatch(login());
           navigate("/");
         }
       },

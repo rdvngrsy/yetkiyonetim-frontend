@@ -16,5 +16,5 @@ const loadingSlice = createSlice({
   },
 });
 
-export const loadingReducer = loadingSlice.reducer;
 export const {increaseRequestCount,decreaseRequestCount} = loadingSlice.actions;
+export const loadingReducer = loadingSlice.reducer;
