@@ -7,6 +7,10 @@ import { GetUserRoleResponse } from "../models/user-role/responses/getUserRoleRe
 import { BaseService } from "./baseService";
 import axiosInstance from "../core/utils/interceptors/axiosInterceptors";
 
+interface GetUserRoleRequest {
+    userId: string;
+    // Diğer istek alanları
+  }
 class UserRoleService extends BaseService<
     GetUserRoleListResponse,
     GetUserRoleResponse,
@@ -22,7 +26,9 @@ class UserRoleService extends BaseService<
         return axiosInstance.delete(`${this.apiUrl}`, { data: request });
     }
 
-    
+    getRolesByUserId(request: GetUserRoleRequest): Promise<AxiosResponse<any>> {
+        return axiosInstance.get(`${this.apiUrl}`, { data: request });
+    }
 }
 
 export default new UserRoleService();

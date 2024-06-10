@@ -17,7 +17,7 @@ const CreateUsers = (props: Props) => {
     username: string().email('Geçersiz email adresi').required('Email adresi boş geçilemez.'),
     password: string()
       .required('Şifre alanı zorunludur.')
-      .min(6, 'Şifre minimum 6 karakter uzunluğunda olmalıdır.')
+      .min(3, 'Şifre minimum 3 karakter uzunluğunda olmalıdır.')
       .max(30, 'Şifre maksimum 30 karakter uzunluğunda olabilir.'),
   });
 

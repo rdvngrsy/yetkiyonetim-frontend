@@ -77,7 +77,7 @@ const AssignRoleOfUser = (props: Props) => {
   return (
     <>
       <div className="flex justify-center items-center h-screen">
-        <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5 w-[1400px]">
+        <div className="overflow-hidden bg-white  rounded-lg border border-gray-200 shadow-md m-5 w-[1400px]">
           <div className="p-5">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Kullanıcıya Rol Atama</h2>
             <div className="mb-4">
@@ -88,7 +88,7 @@ const AssignRoleOfUser = (props: Props) => {
                 id="user"
                 value={selectedUserId}
                 onChange={handleUserChange}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-4 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
               >
                 <option value="">Bir kullanıcı seçin</option>
                 {users.map((user) => (
@@ -106,7 +106,7 @@ const AssignRoleOfUser = (props: Props) => {
                 id="role"
                 value={selectedRoleId}
                 onChange={handleRoleChange}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-4 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
               >
                 <option value="">Bir rol seçin</option>
                 {roles.map((role) => (

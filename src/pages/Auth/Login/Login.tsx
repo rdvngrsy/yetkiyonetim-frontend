@@ -7,13 +7,20 @@ import { AuthenticateRequest } from "../../../models/auth/requests/authenticateR
 import authService from "../../../services/authService";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/slices/authSlice";
+import userRoleService from "../../../services/userRoleService";
+import { jwtDecode } from "jwt-decode";
+import { useState } from "react";
 
 type Props = {};
+interface JwtPayload {
+  id: string;
+  // Diğer JWT payload alanları
+}
 
 const Login = (props: Props) => {
+  const [userRole, setUserRole] = useState<string>("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   const initialValues = {
     username: "",
@@ -21,7 +28,9 @@ const Login = (props: Props) => {
   };
 
   const validationSchema = object({
-    username: string().email("Geçersiz kullanıcı adı").required("Kullanıcı adı boş geçilemez."),
+    username: string()
+      .email("Geçersiz kullanıcı adı")
+      .required("Kullanıcı adı boş geçilemez."),
     password: string()
       .required("Şifre alanı zorunludur.")
       .min(2, "Şifre minimum 3 karakter uzunluğunda olmalıdır.")
@@ -39,8 +48,26 @@ const Login = (props: Props) => {
         } else {
           const token = response.data.token;
           localStorage.setItem("jsonwebtoken", token);
-          dispatch(login());
-          navigate("/");
+
+          const decodedToken = jwtDecode<JwtPayload>(token);
+          const userId = decodedToken.id;
+
+          userRoleService.getRolesByUserId({ userId }).then((roleResponse) => {
+            let userRoleName = "";
+            for (const role of roleResponse.data) {
+              if (role.userId === userId) {
+                userRoleName = role.roleName;
+                break;
+              }
+            }
+            if (userRoleName) {
+              localStorage.setItem("role", userRoleName);
+              dispatch(login());
+              navigate("/");
+            } else {
+              console.log("Kullanıcının rolü bulunamadı.");
+            }
+          });
         }
       },
       (error) => {
@@ -48,6 +75,7 @@ const Login = (props: Props) => {
       }
     );
   };
+
   return (
     <>
       <div className="h-screen relative">
